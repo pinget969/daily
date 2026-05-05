@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Scrum Master | Modern Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i data-lucide="calendar-check"></i>
+                Daily Scrum Master
+            </div>
+            <div id="global-timer-container" class="global-timer-card glass-panel hidden">
+                <div id="timer-dot" class="timer-indicator"></div>
+                <span id="global-timer-display">00:00</span>
+                <span id="global-timer-emoji">😊</span>
+            </div>
+        </header>
+
+        <!-- VIEW: SETUP -->
+        <main id="view-setup" class="view active">
+            <div class="setup-grid">
+                <section class="participant-form glass-panel">
+                    <h2 style="margin-bottom: 1.5rem;">Gestionar Equipo</h2>
+                    <form id="add-participant-form">
+                        <div class="form-group">
+                            <label for="p-name">Nombre del Participante</label>
+                            <input type="text" id="p-name" placeholder="Ej: Nelson" required>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <button type="submit" class="btn btn-primary" style="flex: 1;">
+                                <i data-lucide="user-plus"></i> Agregar
+                            </button>
+                        </div>
+                    </form>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+                        <button id="start-daily-btn" class="btn btn-success" style="width: 100%; justify-content: center; padding: 1.2rem;">
+                            <i data-lucide="play"></i> INICIAR DAILY
+                        </button>
+                    </div>
+                </section>
+
+                <section class="glass-panel" style="padding: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2 style="font-size: 1.2rem;">Lista de Participantes (<span id="participant-count">0</span>)</h2>
+                        <button id="clear-list-btn" class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Limpiar</button>
+                    </div>
+                    <ul id="participant-list" class="participant-list">
+                        <!-- Participants injected here -->
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+        <!-- VIEW: ACTIVE DAILY -->
+        <main id="view-active" class="view">
+            <div class="daily-layout">
+                <div id="speaker-card" class="speaker-card glass-panel">
+                    <div id="progress-indicator" style="position: absolute; top: 1rem; right: 1.5rem; color: var(--text-muted); font-weight: 600;">
+                        <span id="current-index">1</span> / <span id="total-participants">5</span>
+                    </div>
+                    
+                    <h3 id="current-speaker-name" class="speaker-name">Nelson</h3>
+                    <div id="current-speaker-timer" class="speaker-timer">00:00</div>
+                    
+                    <div id="speaker-status-badges" style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                        <!-- Badges injected here -->
+                    </div>
+
+                    <div style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 1rem;">
+                        <button id="toggle-late-btn" class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                            <i data-lucide="clock"></i> Tarde
+                        </button>
+                        <button id="toggle-delayed-btn" class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                            <i data-lucide="alert-triangle"></i> Demorado
+                        </button>
+                    </div>
+
+                    <div id="speaker-guide-questions" class="guide-questions">
+                        <div class="question-box">
+                            <h4>¿Qué hice ayer?</h4>
+                            <p>Tareas completadas y avances significativos.</p>
+                        </div>
+                        <div class="question-box">
+                            <h4>¿Qué haré hoy?</h4>
+                            <p>Objetivos para el día de trabajo.</p>
+                        </div>
+                        <div class="question-box">
+                            <h4>¿Bloqueos?</h4>
+                            <p>Impedimentos que requieren ayuda.</p>
+                        </div>
+                    </div>
+
+                    <div id="parking-lot-content" class="question-box hidden" style="margin-bottom: 2rem; width: 100%; text-align: left;">
+                        <h4>Espacio de Preguntas / Parking Lot</h4>
+                        <p style="font-size: 1.1rem; line-height: 1.6;">Discusiones técnicas, dudas generales o temas que quedaron pendientes durante la ronda individual.</p>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button id="skip-btn" class="btn btn-ghost" style="border-color: var(--accent-danger); color: var(--accent-danger);">
+                            <i data-lucide="user-minus"></i> Saltar (Ausente)
+                        </button>
+                        <button id="next-btn" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                            <i data-lucide="arrow-right-circle"></i> Siguiente Persona
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button id="pause-daily-btn" class="btn btn-ghost">
+                        <i data-lucide="pause"></i> Pausar
+                    </button>
+                    <button id="stop-daily-btn" class="btn btn-ghost" style="color: var(--accent-danger);">
+                        <i data-lucide="square"></i> Finalizar
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- VIEW: SUMMARY -->
+        <main id="view-summary" class="view">
+            <div class="glass-panel" style="padding: 3rem;">
+                <div class="summary-header">
+                    <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Resumen de la Daily</h1>
+                    <p style="color: var(--text-muted);">Métricas de desempeño del equipo</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <div id="stat-total-time" class="stat-value">00:00</div>
+                        <div class="stat-label">Tiempo Total</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-avg-time" class="stat-value">00:00</div>
+                        <div class="stat-label">Promedio p/p</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-fastest" class="stat-value">-</div>
+                        <div class="stat-label">Más Rápido 🚀</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-slowest" class="stat-value">-</div>
+                        <div class="stat-label">Más Lento 💀</div>
+                    </div>
+                </div>
+
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Participante</th>
+                            <th>Estado</th>
+                            <th>Tiempo</th>
+                            <th>Clasificación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-table-body">
+                        <!-- Results injected here -->
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <button id="restart-btn" class="btn btn-primary" style="padding: 1.2rem 3rem;">
+                        <i data-lucide="refresh-cw"></i> Iniciar Nueva Daily
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
