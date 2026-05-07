@@ -1,3 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Scrum Master | Modern Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- REEMPLAZAR POR EL CONTENIDO DE STYLE.CSS -->
+    <style>
+:root {
+    /* Color Palette - Premium Dark Theme */
+    --bg-deep: #0a0c10;
+    --bg-surface: #161b22;
+    --bg-glass: rgba(22, 27, 34, 0.7);
+    --border-glass: rgba(255, 255, 255, 0.1);
+    
+    --accent-primary: #3fb950; /* Success/Safe */
+    --accent-warning: #d29922; /* Warning */
+    --accent-danger: #f85149;  /* Danger */
+    --accent-info: #58a6ff;    /* Info/Speaker */
+    
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+    --text-bright: #ffffff;
+    
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism Containers */
+.glass-panel {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+    flex: 1;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-info), #bc8cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Views Control */
+.view {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Setup View */
+.setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .setup-grid { grid-template-columns: 1fr; }
+}
+
+.participant-form {
+    padding: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="time"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    color: var(--text-bright);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+input[type="text"]:focus,
+input[type="time"]:focus {
+    border-color: var(--accent-info);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--accent-info);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #478edb;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #2ea043;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-main);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Participant List */
+.participant-list {
+    list-style: none;
+}
+
+.participant-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.participant-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.participant-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.participant-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.badge-late { background: rgba(248, 81, 73, 0.2); color: var(--accent-danger); }
+.badge-delayed { background: rgba(210, 153, 34, 0.2); color: var(--accent-warning); }
+.badge-guest { background: rgba(255, 255, 255, 0.1); color: var(--text-muted); border: 1px solid var(--border-glass); }
+
+/* Active Daily View */
+.daily-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.global-timer-card {
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+}
+
+.timer-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    box-shadow: 0 0 10px var(--accent-primary);
+}
+
+.speaker-card {
+    width: 100%;
+    max-width: 800px;
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.speaker-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--speaker-progress, 0%);
+    height: 4px;
+    background: var(--accent-info);
+    transition: width 1s linear;
+}
+
+.speaker-card.warning::before {
+    background: var(--accent-warning);
+}
+
+.speaker-card.danger::before {
+    background: var(--accent-danger);
+}
+
+.speaker-card.transitioning {
+    animation: slideOut 0.3s forwards;
+}
+
+.speaker-card.entering {
+    animation: slideIn 0.3s forwards;
+}
+
+@keyframes slideOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-50px); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.speaker-name {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+}
+
+.speaker-timer {
+    font-size: 2.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--accent-info);
+    margin-bottom: 2rem;
+}
+
+.guide-questions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.question-box {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.question-box h4 {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.question-box p {
+    font-weight: 500;
+}
+
+/* Summary View */
+.summary-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-info);
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.metrics-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.metrics-table th, .metrics-table td {
+    padding: 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.metrics-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.emoji-rank {
+    font-size: 1.5rem;
+}
+
+/* Utilities */
+.hidden { display: none !important; }
+
+/* Status Colors */
+.status-safe { --accent-current: var(--accent-primary); }
+.status-warning { --accent-current: var(--accent-warning); }
+.status-danger { --accent-current: var(--accent-danger); }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i data-lucide="calendar-check"></i>
+                Daily Scrum Master
+            </div>
+            <div id="global-timer-container" class="global-timer-card glass-panel hidden">
+                <div id="timer-dot" class="timer-indicator"></div>
+                <span id="global-timer-display">00:00</span>
+                <span id="global-timer-emoji">😊</span>
+            </div>
+        </header>
+
+        <!-- VIEW: SETUP -->
+        <main id="view-setup" class="view active">
+            <div class="setup-grid">
+                <section class="participant-form glass-panel">
+                    <h2 style="margin-bottom: 1.5rem;">Gestionar Equipo</h2>
+                    <form id="add-participant-form">
+                        <div class="form-group">
+                            <label for="p-name">Nombre del Participante</label>
+                            <input type="text" id="p-name" placeholder="Ej: Nelson" required>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <button type="submit" class="btn btn-primary" style="flex: 1;">
+                                <i data-lucide="user-plus"></i> Agregar
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="planned-start-time">Horario pactado de inicio</label>
+                            <input type="time" id="planned-start-time" value="09:30">
+                        </div>
+                    </form>
+                    <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
+                        <button id="start-daily-btn" class="btn btn-success" style="width: 100%; justify-content: center; padding: 1.2rem;">
+                            <i data-lucide="play"></i> INICIAR DAILY
+                        </button>
+                    </div>
+                </section>
+
+                <section class="glass-panel" style="padding: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2 style="font-size: 1.2rem;">Lista de Participantes (<span id="participant-count">0</span>)</h2>
+                        <button id="clear-list-btn" class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Limpiar</button>
+                    </div>
+                    <ul id="participant-list" class="participant-list">
+                        <!-- Participants injected here -->
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+        <!-- VIEW: ACTIVE DAILY -->
+        <main id="view-active" class="view">
+            <div class="daily-layout">
+                <div id="speaker-card" class="speaker-card glass-panel">
+                    <div id="progress-indicator" style="position: absolute; top: 1rem; right: 1.5rem; color: var(--text-muted); font-weight: 600;">
+                        <span id="current-index">1</span> / <span id="total-participants">5</span>
+                    </div>
+                    
+                    <h3 id="current-speaker-name" class="speaker-name">Nelson</h3>
+                    <div id="current-speaker-timer" class="speaker-timer">00:00</div>
+                    
+                    <div id="speaker-status-badges" style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                        <!-- Badges injected here -->
+                    </div>
+
+                    <div style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 1rem;">
+                        <button id="toggle-late-btn" class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                            <i data-lucide="clock"></i> Tarde
+                        </button>
+                        <button id="toggle-delayed-btn" class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                            <i data-lucide="alert-triangle"></i> Demorado
+                        </button>
+                    </div>
+
+                    <div id="speaker-guide-questions" class="guide-questions">
+                        <div class="question-box">
+                            <h4>¿Qué hice ayer?</h4>
+                            <p>Tareas completadas y avances significativos.</p>
+                        </div>
+                        <div class="question-box">
+                            <h4>¿Qué haré hoy?</h4>
+                            <p>Objetivos para el día de trabajo.</p>
+                        </div>
+                        <div class="question-box">
+                            <h4>¿Bloqueos?</h4>
+                            <p>Impedimentos que requieren ayuda.</p>
+                        </div>
+                    </div>
+
+                    <div id="parking-lot-content" class="question-box hidden" style="margin-bottom: 2rem; width: 100%; text-align: left;">
+                        <h4>Espacio de Preguntas / Parking Lot</h4>
+                        <p style="font-size: 1.1rem; line-height: 1.6;">Discusiones técnicas, dudas generales o temas que quedaron pendientes durante la ronda individual.</p>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button id="skip-btn" class="btn btn-ghost" style="border-color: var(--accent-danger); color: var(--accent-danger);">
+                            <i data-lucide="user-minus"></i> Saltar (Ausente)
+                        </button>
+                        <button id="next-btn" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                            <i data-lucide="arrow-right-circle"></i> Siguiente Persona
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button id="pause-daily-btn" class="btn btn-ghost">
+                        <i data-lucide="pause"></i> Pausar
+                    </button>
+                    <button id="stop-daily-btn" class="btn btn-ghost" style="color: var(--accent-danger);">
+                        <i data-lucide="square"></i> Finalizar
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- VIEW: SUMMARY -->
+        <main id="view-summary" class="view">
+            <div class="glass-panel" style="padding: 3rem;">
+                <div class="summary-header">
+                    <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Resumen de la Daily</h1>
+                    <p style="color: var(--text-muted);">Métricas de desempeño del equipo</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <div id="stat-total-time" class="stat-value">00:00</div>
+                        <div class="stat-label">Tiempo Total</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-avg-time" class="stat-value">00:00</div>
+                        <div class="stat-label">Promedio p/p</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-fastest" class="stat-value">-</div>
+                        <div class="stat-label">Más Rápido 🚀</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-slowest" class="stat-value">-</div>
+                        <div class="stat-label">Más Lento 💀</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-pause-count" class="stat-value">0</div>
+                        <div class="stat-label">Cantidad de pausas</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-pause-time" class="stat-value">00:00</div>
+                        <div class="stat-label">Tiempo en pausa</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-start-delay" class="stat-value">00:00</div>
+                        <div id="stat-start-delay-label" class="stat-label">Inicio vs pactado</div>
+                    </div>
+                </div>
+
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Participante</th>
+                            <th>Estado</th>
+                            <th>Tiempo</th>
+                            <th>Pausa</th>
+                            <th>Clasificación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-table-body">
+                        <!-- Results injected here -->
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <button id="restart-btn" class="btn btn-primary" style="padding: 1.2rem 3rem;">
+                        <i data-lucide="refresh-cw"></i> Iniciar Nueva Daily
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- REMPLAZAR POR EL CONTENIDO DE APP.JS -->
+
+    <script>
 class DailyScrumApp {
     constructor() {
         this.participants = JSON.parse(localStorage.getItem('daily-participants')) || [];
@@ -525,3 +1105,8 @@ class DailyScrumApp {
 
 // Global instance for inline event handlers
 const app = new DailyScrumApp();
+
+lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -39,6 +39,10 @@
                                 <i data-lucide="user-plus"></i> Agregar
                             </button>
                         </div>
+                        <div class="form-group">
+                            <label for="planned-start-time">Horario pactado de inicio</label>
+                            <input type="time" id="planned-start-time" value="09:30">
+                        </div>
                     </form>
                     <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem;">
                         <button id="start-daily-btn" class="btn btn-success" style="width: 100%; justify-content: center; padding: 1.2rem;">
@@ -149,6 +153,18 @@
                         <div id="stat-slowest" class="stat-value">-</div>
                         <div class="stat-label">Más Lento 💀</div>
                     </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-pause-count" class="stat-value">0</div>
+                        <div class="stat-label">Cantidad de pausas</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-pause-time" class="stat-value">00:00</div>
+                        <div class="stat-label">Tiempo en pausa</div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div id="stat-start-delay" class="stat-value">00:00</div>
+                        <div id="stat-start-delay-label" class="stat-label">Inicio vs pactado</div>
+                    </div>
                 </div>
 
                 <table class="metrics-table">
@@ -157,6 +173,7 @@
                             <th>Participante</th>
                             <th>Estado</th>
                             <th>Tiempo</th>
+                            <th>Pausa</th>
                             <th>Clasificación</th>
                         </tr>
                     </thead>
@@ -176,6 +193,22 @@
 
     <script src="app.js"></script>
     <script>
+        // Activa specs de forma opcional:
+        // - window.RUN_DAILY_SPEC = true (en consola y recargar)
+        // - o usar URL con ?spec=1
+        (function enableOptionalSpecExecution() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('spec') === '1') {
+                window.RUN_DAILY_SPEC = true;
+            }
+
+            if (window.RUN_DAILY_SPEC === true) {
+                const specScript = document.createElement('script');
+                specScript.src = 'daily-manager.spec.js';
+                document.body.appendChild(specScript);
+            }
+        })();
+
         lucide.createIcons();
     </script>
 </body>

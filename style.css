@@ -112,7 +112,8 @@ label {
     font-size: 0.9rem;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="time"] {
     width: 100%;
     padding: 0.8rem 1rem;
     background: rgba(255, 255, 255, 0.05);
@@ -123,7 +124,8 @@ input[type="text"] {
     transition: var(--transition-smooth);
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus,
+input[type="time"]:focus {
     border-color: var(--accent-info);
     background: rgba(255, 255, 255, 0.08);
 }
