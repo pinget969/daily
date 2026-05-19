@@ -16,7 +16,7 @@
 (function dailyManagerSpecScope() {
     "use strict";
 
-    const SPEC_VERSION = "1.3.0";
+    const SPEC_VERSION = "1.5.0";
 
     // ------------------------------------------------------------
     // 1) REQUERIMIENTOS FUNCIONALES
@@ -66,6 +66,61 @@
             id: "RF-09",
             title: "Inicio anticipado",
             description: "Si la reunion inicia antes del horario pactado, la metrica debe mostrarse como inicio anticipado, no como demora."
+        },
+        {
+            id: "RF-10",
+            title: "Sprint activo dinamico",
+            description: "El sprint activo se obtiene de GET /project/{projectKey}/sprint seleccionando state === 2."
+        },
+        {
+            id: "RF-11",
+            title: "Usuarios dinamicos del proyecto",
+            description: "Los usuarios del select se obtienen de la API filtrando por pkey del proyecto, sin lista hardcodeada."
+        },
+        {
+            id: "RF-12",
+            title: "Cache iceScrum con TTL",
+            description: "Los datos de sprint, stories, tasks y users se cachean en sessionStorage con TTL de 5 minutos."
+        },
+        {
+            id: "RF-13",
+            title: "Token iceScrum obligatorio",
+            description: "No debe existir defaultToken; el token proviene solo del input o sessionStorage."
+        },
+        {
+            id: "RF-14",
+            title: "Daily consume cache local",
+            description: "startDaily no debe disparar fetch a iceScrum; usa datos ya cargados en setup."
+        },
+        {
+            id: "RF-15",
+            title: "Listado dinamico de proyectos",
+            description: "Los proyectos disponibles se obtienen de GET /project/user paginado y se muestran como checkboxes en setup."
+        },
+        {
+            id: "RF-16",
+            title: "Seleccion multiple de proyectos",
+            description: "El usuario puede seleccionar uno o mas pkeys; la seleccion persiste en localStorage bajo daily-selected-projects."
+        },
+        {
+            id: "RF-17",
+            title: "Sprint activo por proyecto",
+            description: "Cada proyecto seleccionado obtiene su sprint activo via GET /project/{pkey}/sprint con state === 2."
+        },
+        {
+            id: "RF-18",
+            title: "Usuarios unificados multi-proyecto",
+            description: "Los miembros de cada proyecto (GET /project/{pkey}) se fusionan por id con projects[] indicando pkey y sprintId."
+        },
+        {
+            id: "RF-19",
+            title: "Cache y render multi-proyecto",
+            description: "El cache agrupa sprint/stories/tasks por pkey en projects{}; el panel del speaker agrupa tareas por proyecto."
+        },
+        {
+            id: "RF-20",
+            title: "Tolerancia a fallos parciales",
+            description: "Si un proyecto falla al cargar, se registra warning y los demas proyectos seleccionados siguen disponibles."
         }
     ];
 
@@ -158,6 +213,47 @@
                 "Then la diferencia debe mostrarse como inicio anticipado",
                 "And no debe etiquetarse como demora en iniciar"
             ]
+        },
+        {
+            id: "BDD-09",
+            feature: "Descubrimiento iceScrum en setup",
+            scenario: [
+                "Given que tengo token valido",
+                "When cargo datos iniciales de iceScrum",
+                "Then obtengo usuarios, sprint activo, stories y tasks",
+                "And el select de participantes se llena dinamicamente"
+            ]
+        },
+        {
+            id: "BDD-10",
+            feature: "Cache y refresh manual",
+            scenario: [
+                "Given que el cache no expiro",
+                "When inicio la Daily",
+                "Then no se realizan nuevas llamadas a la API",
+                "When presiono Actualizar datos iceScrum",
+                "Then se invalida el cache y se vuelve a sincronizar"
+            ]
+        },
+        {
+            id: "BDD-11",
+            feature: "Seleccion multi-proyecto",
+            scenario: [
+                "Given que tengo token valido y varios proyectos",
+                "When marco EVOSUITE e INFRAESTRU",
+                "Then se sincronizan ambos sprints y usuarios unificados",
+                "And el badge muestra resumen por pkey"
+            ]
+        },
+        {
+            id: "BDD-12",
+            feature: "Fallo parcial de proyecto",
+            scenario: [
+                "Given que selecciono un proyecto valido y uno invalido",
+                "When sincronizo datos",
+                "Then veo warning del proyecto fallido",
+                "And el proyecto valido sigue con usuarios y tareas"
+            ]
         }
     ];
 
@@ -199,6 +295,14 @@
             startDelaySeconds: "number",
             pauseCount: "number",
             totalPauseSeconds: "number"
+        },
+        iceCache: {
+            createdAt: "number (epoch ms)",
+            availableProjects: "[{ id, name, pkey }]",
+            selectedPkeys: "string[]",
+            projects: "{ [pkey]: { sprint, stories, tasks[] } }",
+            users: "[{ id, nombre, projects: [{ pkey, sprintId }] }]",
+            warnings: "string[]"
         }
     };
 
@@ -519,6 +623,123 @@
             app.updateNextButtonLabel(app.currentQueue[1]);
             t.assert(app.btns.next.textContent.includes("Finalizar"), "En parking lot debe decir Finalizar");
         });
+
+        if (typeof window.seleccionarSprintActivo === "function") {
+            t.test("RF-10 | Sprint activo state === 2", () => {
+                const sprint = window.seleccionarSprintActivo([
+                    { id: 1, state: 1, fullName: "R5S8" },
+                    { id: 249673, state: 2, fullName: "R5S9" }
+                ]);
+                t.assert(sprint.id === 249673, "Debe elegir sprint con state 2");
+                t.assert(sprint.fullName === "R5S9", "Debe conservar fullName del sprint activo");
+            });
+        }
+
+        if (typeof window.extraerProyectoPorPkey === "function") {
+            t.test("RF-11 | Usuarios por pkey EVOSUITE", () => {
+                const project = window.extraerProyectoPorPkey({
+                    projects: [
+                        { pkey: "OTRO", team: { members: [{ id: 1, firstName: "A", lastName: "B" }] } },
+                        { pkey: "EVOSUITE", team: { members: [{ id: 86345, firstName: "Ramiro", lastName: "Muñoz" }] } }
+                    ]
+                }, "EVOSUITE");
+                const users = window.mapearMiembrosProyecto(project.team.members);
+                t.assert(users.length === 1, "Debe haber un usuario del proyecto EVOSUITE");
+                t.assert(users[0].nombre === "Ramiro Muñoz", "Debe formatear nombre completo");
+            });
+        }
+
+        if (typeof window.cacheValido === "function") {
+            t.test("RF-12 | Cache valido dentro de TTL", () => {
+                const fresh = { createdAt: Date.now() };
+                const stale = { createdAt: Date.now() - window.ICE_CACHE_TTL_MS - 1 };
+                t.assert(window.cacheValido(fresh) === true, "Cache reciente debe ser valido");
+                t.assert(window.cacheValido(stale) === false, "Cache expirado debe ser invalido");
+            });
+
+            if (typeof window.pkeysEqual === "function") {
+                t.test("RF-19 | Cache invalido si cambian pkeys seleccionados", () => {
+                    const cache = {
+                        createdAt: Date.now(),
+                        selectedPkeys: ["A", "B"]
+                    };
+                    t.assert(window.cacheValido(cache, ["A", "B"]) === true, "Mismos pkeys deben ser validos");
+                    t.assert(window.cacheValido(cache, ["A"]) === false, "Distintos pkeys deben invalidar cache");
+                });
+            }
+        }
+
+        if (typeof window.mergearUsuarios === "function") {
+            t.test("RF-18 | mergearUsuarios deduplica por id", () => {
+                const users = window.mergearUsuarios([
+                    {
+                        pkey: "EVOSUITE",
+                        sprintId: 10,
+                        members: [{ id: 1, firstName: "Nelson", lastName: "P" }]
+                    },
+                    {
+                        pkey: "INFRAESTRU",
+                        sprintId: 20,
+                        members: [{ id: 1, firstName: "Nelson", lastName: "P" }]
+                    }
+                ]);
+                t.assert(users.length === 1, "Debe haber un solo usuario unificado");
+                t.assert(users[0].projects.length === 2, "Debe acumular ambos proyectos");
+                t.assert(users[0].projects.some(p => p.pkey === "EVOSUITE"), "Debe incluir EVOSUITE");
+                t.assert(users[0].projects.some(p => p.pkey === "INFRAESTRU"), "Debe incluir INFRAESTRU");
+            });
+        }
+
+        if (typeof window.contarTareasPorUsuarioMulti === "function") {
+            t.test("RF-19 | contarTareasPorUsuarioMulti suma por proyecto", () => {
+                const projects = {
+                    EVOSUITE: {
+                        tasks: [
+                            { responsible: { id: 5 } },
+                            { responsible: { id: 5 } }
+                        ]
+                    },
+                    INFRAESTRU: {
+                        tasks: [{ responsible: { id: 5 } }]
+                    }
+                };
+                t.assert(window.contarTareasPorUsuarioMulti(projects, 5) === 3, "Debe sumar tareas de todos los proyectos");
+            });
+        }
+
+        t.test("RF-14 | startDaily usa iceData.projects sin fetch", () => {
+            const fakeCache = {
+                availableProjects: [{ id: 1, name: "Evo", pkey: "EVOSUITE" }],
+                selectedPkeys: ["EVOSUITE"],
+                projects: {
+                    EVOSUITE: {
+                        sprint: { id: 249673, fullName: "R5S9", state: 2 },
+                        stories: [],
+                        tasks: [{ name: "T1", responsible: { id: 1 }, parentStory: { name: "S" } }]
+                    }
+                },
+                users: [{ id: 1, nombre: "Test", projects: [{ pkey: "EVOSUITE", sprintId: 249673 }] }],
+                warnings: [],
+                createdAt: Date.now()
+            };
+            app.iceData = fakeCache;
+            app.participants = [{ id: "1", name: "Test", iceScrumUserId: 1, excludeFromRotation: false, isLate: false, isDelayed: false, status: "pending" }];
+            app.startDaily();
+            t.assert(app.iceSprintCache === fakeCache.projects, "startDaily debe usar projects del cache");
+        });
+
+        if (typeof window.filtrarTareasPorUsuario === "function") {
+            t.test("RF-11 | Filtrado extensible por responsible", () => {
+                const tasks = [
+                    { responsible: { id: 10 }, creator: { id: 99 }, blocked: false },
+                    { responsible: { id: 20 }, creator: { id: 10 }, blocked: true }
+                ];
+                const byResp = window.filtrarTareasPorUsuario(tasks, 10, { assigneeFields: ["responsible"] });
+                t.assert(byResp.length === 1, "Debe filtrar por responsible");
+                const byCreator = window.filtrarTareasPorUsuario(tasks, 10, { assigneeFields: ["creator"] });
+                t.assert(byCreator.length === 1, "Debe poder filtrar por creator");
+            });
+        }
 
         t.summary();
         restoreState();

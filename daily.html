@@ -262,6 +262,231 @@ select option {
     line-height: 1.4;
 }
 
+.ice-status-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.ice-status-panel .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+#ice-sprint-badge {
+    font-size: 0.85rem;
+}
+
+.ice-project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 180px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid var(--border-glass);
+}
+
+.ice-project-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.ice-project-item input {
+    accent-color: var(--accent-info);
+}
+
+.task-project-block {
+    margin-bottom: 1rem;
+    padding: 0.7rem 0.85rem 0.55rem;
+    border-radius: 10px;
+    border-left: 3px solid var(--project-accent-border, var(--accent-info));
+    background: var(--project-accent-bg, rgba(88, 166, 255, 0.06));
+}
+
+.task-project-block:last-child {
+    margin-bottom: 0;
+}
+
+.task-project-header {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.65rem;
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.task-project-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--project-accent-text, var(--accent-info));
+}
+
+.task-project-sprint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.task-project-block .task-story-name {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.task-project-block .task-story-group {
+    margin-bottom: 0.85rem;
+}
+
+.task-project-block .task-story-group:last-child {
+    margin-bottom: 0;
+}
+
+.ice-setup-warning {
+    color: var(--accent-warning);
+}
+
+.user-picker {
+    position: relative;
+    width: 100%;
+}
+
+.user-picker-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    color: var(--text-bright);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    transition: var(--transition-smooth);
+}
+
+.user-picker-trigger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.user-picker-trigger.open,
+.user-picker-trigger:focus-visible {
+    border-color: var(--accent-info);
+    background: rgba(255, 255, 255, 0.08);
+    outline: none;
+}
+
+.user-picker-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-picker-chevron {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.user-picker-trigger.open .user-picker-chevron {
+    transform: rotate(180deg);
+}
+
+.user-picker-dropdown {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #1a1d24;
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+.user-picker-search-wrap {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.user-picker-search {
+    width: 100%;
+    margin: 0;
+    padding: 0.6rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 6px;
+    color: var(--text-bright);
+    outline: none;
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.user-picker-search:focus {
+    border-color: var(--accent-info);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.user-picker-list {
+    list-style: none;
+    max-height: 220px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.25rem 0;
+}
+
+.user-picker-option {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: none;
+    border: none;
+    color: var(--text-bright);
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.user-picker-option:hover,
+.user-picker-option:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    outline: none;
+}
+
+.user-picker-empty {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.participant-task-count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
 input[type="password"] {
     width: 100%;
     padding: 0.8rem 1rem;
@@ -342,7 +567,8 @@ input[type="password"]:focus {
 .participant-info {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .participant-actions {
@@ -550,21 +776,38 @@ input[type="password"]:focus {
                     <h2 style="margin-bottom: 1.5rem;">Gestionar Equipo</h2>
                     <form id="add-participant-form">
                         <div class="form-group">
-                            <label for="user-select">Participante (iceScrum)</label>
-                            <select id="user-select" required>
-                                <!-- Opciones cargadas desde usuarios[] -->
-                            </select>
-                            <p id="selected-user-display" class="selected-user-hint">Ningún usuario seleccionado</p>
+                            <label>Proyectos iceScrum</label>
+                            <div id="ice-project-list" class="ice-project-list"></div>
+                            <p class="selected-user-hint">Selecciona uno o más proyectos</p>
                         </div>
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;">
-                                <i data-lucide="user-plus"></i> Agregar
-                            </button>
+                        <div class="form-group">
+                            <label for="user-picker-trigger">Participante (iceScrum)</label>
+                            <div id="user-picker" class="user-picker">
+                                <button type="button" id="user-picker-trigger" class="user-picker-trigger" aria-expanded="false" aria-haspopup="listbox" disabled>
+                                    <span id="user-picker-label" class="user-picker-label">Seleccionar participante...</span>
+                                    <i data-lucide="chevron-down" class="user-picker-chevron"></i>
+                                </button>
+                                <div id="user-picker-dropdown" class="user-picker-dropdown hidden">
+                                    <div class="user-picker-search-wrap">
+                                        <input type="search" id="user-search" class="user-picker-search" placeholder="Buscar por nombre o proyecto..." autocomplete="off">
+                                    </div>
+                                    <ul id="user-picker-list" class="user-picker-list" role="listbox"></ul>
+                                    <p id="user-picker-empty" class="user-picker-empty hidden"></p>
+                                </div>
+                            </div>
+                            <p class="selected-user-hint">Selecciona un usuario para agregarlo a la lista</p>
                         </div>
                         <div class="form-group">
                             <label for="ice-token">Token iceScrum</label>
                             <input type="password" id="ice-token" placeholder="x-icescrum-token (perfil iceScrum)" autocomplete="off">
                             <p class="selected-user-hint">Se guarda en esta sesión del navegador. Generalo en tu perfil de iceScrum.</p>
+                            <div id="ice-status-panel" class="ice-status-panel">
+                                <span id="ice-sprint-badge" class="badge badge-guest hidden"></span>
+                                <span id="ice-sync-status" class="selected-user-hint">Sin sincronizar</span>
+                                <button type="button" id="ice-refresh-btn" class="btn btn-ghost">Actualizar datos iceScrum</button>
+                            </div>
+                            <p id="ice-setup-loading" class="selected-user-hint hidden">Conectando con iceScrum...</p>
+                            <p id="ice-setup-error" class="task-error hidden"></p>
                         </div>
                         <div class="form-group">
                             <label for="planned-start-time">Horario pactado de inicio</label>
@@ -730,30 +973,16 @@ input[type="password"]:focus {
 
     <script>
 // --- Módulo iceScrum ---
-const STORAGE_KEY_USER = 'daily-selected-user-id';
 const STORAGE_KEY_ICE_TOKEN = 'daily-icescrum-token';
+const STORAGE_KEY_PROJECTS = 'daily-selected-projects';
 
 const ICE_CONFIG = {
     baseUrl: 'https://cloud.icescrum.com/ws',
-    proxyBaseUrl: 'http://localhost:3456/ws',
-    projectId: '246338',
-    sprintId: '249673',
-    defaultToken: 'token_aqui'
+    proxyBaseUrl: 'http://localhost:3456/ws'
 };
 
-const usuarios = [
-    { id: 76574, nombre: 'Alexander Torrico' },
-    { id: 86602, nombre: 'Alexis Molina' },
-    { id: 76429, nombre: 'Emanuel Mallon' },
-    { id: 86346, nombre: 'Gustavo Muza' },
-    { id: 76388, nombre: 'HMS Scrum' },
-    { id: 86734, nombre: 'Juan ignacio DE GAETANO' },
-    { id: 87002, nombre: 'Juan Manuel Sisti' },
-    { id: 76572, nombre: 'Nahuel Alamo' },
-    { id: 81061, nombre: 'Nelson Pinget' },
-    { id: 76571, nombre: 'Pia Carla Andrea Tessandori Zapiola' },
-    { id: 86345, nombre: 'Ramiro Muñoz' }
-];
+const ICE_CACHE_KEY = 'daily-icescrum-cache';
+const ICE_CACHE_TTL_MS = 5 * 60 * 1000;
 
 function getIceBaseUrl() {
     if (typeof location !== 'undefined' && location.port === '3456') {
@@ -763,14 +992,244 @@ function getIceBaseUrl() {
 }
 
 function getIceToken() {
-    return sessionStorage.getItem(STORAGE_KEY_ICE_TOKEN)
-        || ICE_CONFIG.defaultToken
-        || '';
+    return sessionStorage.getItem(STORAGE_KEY_ICE_TOKEN) || '';
 }
 
 function setIceToken(token) {
     if (token) sessionStorage.setItem(STORAGE_KEY_ICE_TOKEN, token);
     else sessionStorage.removeItem(STORAGE_KEY_ICE_TOKEN);
+}
+
+function iceProjectPath(pkey) {
+    return `/project/${pkey}`;
+}
+
+function loadSelectedProjects() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_PROJECTS);
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveSelectedProjects(pkeys) {
+    localStorage.setItem(STORAGE_KEY_PROJECTS, JSON.stringify(pkeys || []));
+}
+
+function pkeysEqual(a, b) {
+    const sa = [...(a || [])].sort();
+    const sb = [...(b || [])].sort();
+    if (sa.length !== sb.length) return false;
+    return sa.every((k, i) => k === sb[i]);
+}
+
+function leerCacheIce() {
+    try {
+        const raw = sessionStorage.getItem(ICE_CACHE_KEY);
+        return raw ? JSON.parse(raw) : null;
+    } catch {
+        return null;
+    }
+}
+
+function guardarCacheIce(data) {
+    const payload = { ...data, createdAt: Date.now() };
+    sessionStorage.setItem(ICE_CACHE_KEY, JSON.stringify(payload));
+    return payload;
+}
+
+function cacheValido(cache, selectedPkeys) {
+    if (!cache || !cache.createdAt || (Date.now() - cache.createdAt) >= ICE_CACHE_TTL_MS) return false;
+    if (selectedPkeys && cache.selectedPkeys && !pkeysEqual(cache.selectedPkeys, selectedPkeys)) return false;
+    return true;
+}
+
+function invalidarCacheIce() {
+    sessionStorage.removeItem(ICE_CACHE_KEY);
+}
+
+function seleccionarSprintActivo(sprints, pkey = '') {
+    const list = Array.isArray(sprints) ? sprints : [];
+    const activos = list.filter(s => s.state === 2);
+    if (activos.length > 1) {
+        console.warn(`[iceScrum] Múltiples sprints activos en ${pkey}; se usa el primero:`, activos[0].id);
+    }
+    const sprint = activos[0];
+    if (!sprint) throw new Error(`No hay sprint activo en ${pkey || 'proyecto'}`);
+    return {
+        id: sprint.id,
+        fullName: sprint.fullName || sprint.name || `Sprint ${sprint.id}`,
+        state: sprint.state
+    };
+}
+
+function mapearMiembrosProyecto(members) {
+    return (members || [])
+        .map(m => ({
+            id: m.id,
+            nombre: `${m.firstName || ''} ${m.lastName || ''}`.trim() || `Usuario ${m.id}`
+        }))
+        .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+}
+
+function extraerProyectoPorPkey(projectsPayload, pkey) {
+    const projects = projectsPayload?.projects
+        || (Array.isArray(projectsPayload) ? projectsPayload : []);
+    return projects.find(p => p.pkey === pkey) || null;
+}
+
+function mergearUsuarios(proyectosData) {
+    const byId = new Map();
+    (proyectosData || []).forEach(({ pkey, sprintId, members }) => {
+        (members || []).forEach(m => {
+            const id = m.id;
+            const nombre = `${m.firstName || ''} ${m.lastName || ''}`.trim() || `Usuario ${id}`;
+            if (!byId.has(id)) {
+                byId.set(id, { id, nombre, projects: [] });
+            }
+            const user = byId.get(id);
+            if (!user.projects.some(p => p.pkey === pkey)) {
+                user.projects.push({ pkey, sprintId });
+            }
+        });
+    });
+    return Array.from(byId.values()).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+}
+
+async function cargarProyectosIceScrum() {
+    const catalog = [];
+    let path = '/project/user?light=true&paginate=true';
+    let payload = await iceFetch(path);
+
+    const collect = (data) => {
+        const projects = data?.projects || (Array.isArray(data) ? data : []);
+        projects.forEach(p => {
+            if (p?.pkey) catalog.push({ id: p.id, name: p.name || p.pkey, pkey: p.pkey });
+        });
+    };
+
+    collect(payload);
+
+    while (payload?.hasNext) {
+        const nextPath = payload.next
+            ? (payload.next.startsWith('/') ? payload.next : `/project/user?${payload.next}`)
+            : null;
+        if (!nextPath) break;
+        payload = await iceFetch(nextPath);
+        collect(payload);
+    }
+
+    return catalog.sort((a, b) => a.pkey.localeCompare(b.pkey, 'es'));
+}
+
+async function cargarSprintActivo(pkey) {
+    const sprintsRaw = await iceFetch(`${iceProjectPath(pkey)}/sprint`);
+    return seleccionarSprintActivo(sprintsRaw, pkey);
+}
+
+async function cargarMiembrosProyecto(pkey) {
+    const project = await iceFetch(iceProjectPath(pkey));
+    return project?.team?.members || [];
+}
+
+async function cargarDatosProyecto(pkey, sprintId) {
+    const base = iceProjectPath(pkey);
+    const [storiesRaw, tasksRaw] = await Promise.all([
+        iceFetch(`${base}/story/sprint/${sprintId}`),
+        iceFetch(`${base}/task/sprint/${sprintId}`)
+    ]);
+    const stories = Array.isArray(storiesRaw) ? storiesRaw : [];
+    const tasks = (Array.isArray(tasksRaw) ? tasksRaw : []).map(t => normalizarTareaIce(t, pkey));
+    return { stories, tasks };
+}
+
+async function cargarIceScrumInicial({
+    forceRefresh = false,
+    selectedPkeys = [],
+    availableProjects = null
+} = {}) {
+    const pkeys = [...(selectedPkeys || [])];
+
+    if (!forceRefresh) {
+        const cached = leerCacheIce();
+        if (cacheValido(cached, pkeys)) return cached;
+    }
+
+    const catalog = availableProjects || await cargarProyectosIceScrum();
+    const warnings = [];
+    const projects = {};
+
+    if (!pkeys.length) {
+        return guardarCacheIce({
+            availableProjects: catalog,
+            selectedPkeys: [],
+            projects: {},
+            users: [],
+            warnings: []
+        });
+    }
+
+    const memberBatches = [];
+    const loads = pkeys.map(async (pkey) => {
+        try {
+            const sprint = await cargarSprintActivo(pkey);
+            const members = await cargarMiembrosProyecto(pkey);
+            const { stories, tasks } = await cargarDatosProyecto(pkey, sprint.id);
+            projects[pkey] = { sprint, stories, tasks };
+            memberBatches.push({ pkey, sprintId: sprint.id, members });
+        } catch (err) {
+            console.warn(`[iceScrum] Error cargando ${pkey}:`, err);
+            warnings.push(`No se pudieron cargar datos del proyecto ${pkey}: ${err.message || err}`);
+        }
+    });
+
+    await Promise.all(loads);
+
+    if (!Object.keys(projects).length && pkeys.length) {
+        throw new Error(warnings.join(' ') || 'No se pudo cargar ningún proyecto seleccionado');
+    }
+
+    const users = mergearUsuarios(memberBatches);
+
+    return guardarCacheIce({
+        availableProjects: catalog,
+        selectedPkeys: pkeys,
+        projects,
+        users,
+        warnings
+    });
+}
+
+function buildTasksByUserMap(projects) {
+    const map = new Map();
+    Object.values(projects || {}).forEach(bundle => {
+        contarTareasPorUsuario(bundle?.tasks).forEach((count, uid) => {
+            map.set(uid, (map.get(uid) || 0) + count);
+        });
+    });
+    return map;
+}
+
+function contarTareasPorUsuarioMulti(projects, userId) {
+    return buildTasksByUserMap(projects).get(Number(userId)) || 0;
+}
+
+function contarTareasPorUsuario(tasks) {
+    const map = new Map();
+    (tasks || []).forEach(t => {
+        const id = t.responsible?.id;
+        if (!id) return;
+        const numId = Number(id);
+        map.set(numId, (map.get(numId) || 0) + 1);
+    });
+    return map;
+}
+
+function formatIceSyncTime(timestamp) {
+    const d = new Date(timestamp);
+    return d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
 }
 
 async function iceFetch(path) {
@@ -792,9 +1251,10 @@ async function iceFetch(path) {
     return res.json();
 }
 
-function normalizarTareaIce(task) {
+function normalizarTareaIce(task, pkey) {
     return {
         name: task.name,
+        projectKey: pkey,
         parentStory: task.parentStory
             ? { id: task.parentStory.id, name: task.parentStory.name }
             : { name: 'Sin historia' },
@@ -807,30 +1267,22 @@ function normalizarTareaIce(task) {
     };
 }
 
-async function cargarSprintIceScrum() {
-    const base = `/project/${ICE_CONFIG.projectId}`;
-    const sprint = ICE_CONFIG.sprintId;
-    const [storiesRaw, tasksRaw] = await Promise.all([
-        iceFetch(`${base}/story/sprint/${sprint}`),
-        iceFetch(`${base}/task/sprint/${sprint}`)
-    ]);
-
-    const stories = Array.isArray(storiesRaw) ? storiesRaw : [];
-    const tasks = (Array.isArray(tasksRaw) ? tasksRaw : []).map(normalizarTareaIce);
-
-    return {
-        stories,
-        tasks,
-        loadedAt: Date.now()
-    };
-}
-
-function filtrarTareasPorUsuario(tasks, userId, assigneeField = 'responsible') {
+function filtrarTareasPorUsuario(tasks, userId, options = {}) {
+    const { assigneeFields = ['responsible'], includeBlockedFirst = false } = options;
     const id = Number(userId);
-    return tasks.filter(task => {
-        const assignee = task[assigneeField];
-        return assignee && Number(assignee.id) === id;
-    });
+
+    let filtered = (tasks || []).filter(task =>
+        assigneeFields.some(field => {
+            const assignee = task[field];
+            return assignee && Number(assignee.id) === id;
+        })
+    );
+
+    if (includeBlockedFirst) {
+        filtered = [...filtered].sort((a, b) => Number(b.blocked) - Number(a.blocked));
+    }
+
+    return filtered;
 }
 
 function getEstadoTarea(task) {
@@ -858,16 +1310,60 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
-function populateUserSelect(selectEl, usuariosList, selectedId) {
-    selectEl.innerHTML = '<option value="">-- Seleccionar usuario --</option>';
-    usuariosList.forEach(u => {
-        const opt = document.createElement('option');
-        opt.value = String(u.id);
-        opt.textContent = u.nombre;
-        if (selectedId && String(u.id) === String(selectedId)) {
-            opt.selected = true;
-        }
-        selectEl.appendChild(opt);
+function filterAvailableIceUsers(usuariosList, options = {}) {
+    const {
+        excludeUserIds = [],
+        filterQuery = ''
+    } = options;
+    const excluded = new Set(excludeUserIds.map(Number));
+    const q = filterQuery.trim().toLowerCase();
+
+    return usuariosList.filter(u => {
+        if (excluded.has(Number(u.id))) return false;
+        if (!q) return true;
+        const pkeys = (u.projects || []).map(p => p.pkey).join(' ');
+        return `${u.nombre} ${pkeys}`.toLowerCase().includes(q);
+    });
+}
+
+function formatUserPickerOption(user, tasksByUser) {
+    const count = tasksByUser ? (tasksByUser.get(Number(user.id)) || 0) : 0;
+    const pkeys = (user.projects || []).map(p => p.pkey).join(', ');
+    const pkeyPart = pkeys ? ` (${pkeys})` : '';
+    return `${user.nombre}${pkeyPart} — ${count} tarea${count === 1 ? '' : 's'}`;
+}
+
+function getUserPickerEmptyMessage(usuariosList, available, options = {}) {
+    const { noProjectsSelected = false, excludeUserIds = [], filterQuery = '' } = options;
+    if (noProjectsSelected) return 'Selecciona proyectos primero';
+    if (available.length) return null;
+    if (excludeUserIds.length && usuariosList.length) return 'Todos los usuarios ya están en la lista';
+    if (filterQuery.trim()) return 'Sin coincidencias';
+    return 'Sin usuarios disponibles';
+}
+
+function renderProjectSelector(containerEl, availableProjects, selectedPkeys, onChange) {
+    containerEl.innerHTML = '';
+    if (!availableProjects.length) {
+        containerEl.innerHTML = '<p class="selected-user-hint">Sin proyectos disponibles (verifica token)</p>';
+        return;
+    }
+
+    availableProjects.forEach(proj => {
+        const label = document.createElement('label');
+        label.className = 'ice-project-item';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.value = proj.pkey;
+        cb.checked = selectedPkeys.includes(proj.pkey);
+        cb.addEventListener('change', () => {
+            const selected = [...containerEl.querySelectorAll('input:checked')].map(i => i.value);
+            saveSelectedProjects(selected);
+            onChange(selected);
+        });
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(` ${proj.pkey} — ${proj.name}`));
+        containerEl.appendChild(label);
     });
 }
 
@@ -906,6 +1402,58 @@ function renderTareasIceScrum(listEl, tasks) {
     });
 }
 
+const PROJECT_TASK_ACCENTS = [
+    { border: 'rgba(88, 166, 255, 0.6)', bg: 'rgba(88, 166, 255, 0.09)', text: '#79b8ff' },
+    { border: 'rgba(63, 185, 80, 0.55)', bg: 'rgba(63, 185, 80, 0.08)', text: '#56d364' },
+    { border: 'rgba(210, 153, 34, 0.55)', bg: 'rgba(210, 153, 34, 0.08)', text: '#e3b341' },
+    { border: 'rgba(163, 113, 247, 0.55)', bg: 'rgba(163, 113, 247, 0.08)', text: '#bc8cff' },
+    { border: 'rgba(57, 197, 207, 0.55)', bg: 'rgba(57, 197, 207, 0.08)', text: '#56d4dd' }
+];
+
+function getProjectTaskAccent(pkey) {
+    let hash = 0;
+    for (let i = 0; i < pkey.length; i++) {
+        hash = ((hash << 5) - hash) + pkey.charCodeAt(i);
+    }
+    return PROJECT_TASK_ACCENTS[Math.abs(hash) % PROJECT_TASK_ACCENTS.length];
+}
+
+function renderTareasIceScrumMultiProyecto(listEl, tasksByProject, projectBundles) {
+    listEl.innerHTML = '';
+    const pkeys = Object.keys(tasksByProject || {}).sort();
+    let hasAny = false;
+
+    pkeys.forEach(pkey => {
+        const tasks = tasksByProject[pkey] || [];
+        if (!tasks.length) return;
+        hasAny = true;
+
+        const accent = getProjectTaskAccent(pkey);
+        const block = document.createElement('section');
+        block.className = 'task-project-block';
+        block.style.setProperty('--project-accent-border', accent.border);
+        block.style.setProperty('--project-accent-bg', accent.bg);
+        block.style.setProperty('--project-accent-text', accent.text);
+
+        const header = document.createElement('div');
+        header.className = 'task-project-header';
+        const sprintName = projectBundles?.[pkey]?.sprint?.fullName;
+        header.innerHTML = `
+            <span class="task-project-badge">${escapeHtml(pkey)}</span>
+            ${sprintName ? `<span class="task-project-sprint">${escapeHtml(sprintName)}</span>` : ''}
+        `;
+        block.appendChild(header);
+
+        const subList = document.createElement('ul');
+        subList.className = 'speaker-tasks-by-story';
+        renderTareasIceScrum(subList, tasks);
+        block.appendChild(subList);
+        listEl.appendChild(block);
+    });
+
+    return hasAny;
+}
+
 class DailyScrumApp {
     constructor() {
         this.participants = JSON.parse(localStorage.getItem('daily-participants')) || [];
@@ -929,17 +1477,23 @@ class DailyScrumApp {
         // Metrics
         this.results = [];
 
-        this.selectedUserId = null;
+        this.iceData = null;
+        this.iceUsers = [];
         this.iceSprintCache = null;
+        this.availableProjects = [];
+        this.selectedProjectPkeys = [];
+        this.iceProjectWarnings = [];
         this.iceLoadError = null;
         this.iceLoading = false;
+        this.iceInitInProgress = false;
+        this.userPickerOpen = false;
 
         this.initElements();
         this.initEvents();
         this.loadPlannedStartTime();
         this.loadIceToken();
-        this.initIceScrumUserSelect();
         this.renderParticipantList();
+        this.initIceScrum(false);
     }
 
     initElements() {
@@ -977,13 +1531,24 @@ class DailyScrumApp {
             statStartDelayLabel: document.getElementById('stat-start-delay-label'),
             plannedStartInput: document.getElementById('planned-start-time'),
             iceTokenInput: document.getElementById('ice-token'),
-            userSelect: document.getElementById('user-select'),
-            selectedUserDisplay: document.getElementById('selected-user-display'),
+            userPicker: document.getElementById('user-picker'),
+            userPickerTrigger: document.getElementById('user-picker-trigger'),
+            userPickerLabel: document.getElementById('user-picker-label'),
+            userPickerDropdown: document.getElementById('user-picker-dropdown'),
+            userPickerList: document.getElementById('user-picker-list'),
+            userPickerEmpty: document.getElementById('user-picker-empty'),
+            userSearch: document.getElementById('user-search'),
             speakerTasksPanel: document.getElementById('speaker-tasks-panel'),
             speakerTasksList: document.getElementById('speaker-tasks-list'),
             speakerTasksLoading: document.getElementById('speaker-tasks-loading'),
             speakerTasksError: document.getElementById('speaker-tasks-error'),
-            speakerTasksEmpty: document.getElementById('speaker-tasks-empty')
+            speakerTasksEmpty: document.getElementById('speaker-tasks-empty'),
+            iceSprintBadge: document.getElementById('ice-sprint-badge'),
+            iceSyncStatus: document.getElementById('ice-sync-status'),
+            iceRefreshBtn: document.getElementById('ice-refresh-btn'),
+            iceSetupLoading: document.getElementById('ice-setup-loading'),
+            iceSetupError: document.getElementById('ice-setup-error'),
+            iceProjectList: document.getElementById('ice-project-list')
         };
 
         this.btns = {
@@ -1000,20 +1565,27 @@ class DailyScrumApp {
     }
 
     initEvents() {
-        this.forms.add.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const userId = this.displays.userSelect.value;
-            if (!userId) return;
-            const user = usuarios.find(u => String(u.id) === userId);
-            if (user) this.addParticipantFromIceScrum(user.id, user.nombre);
-        });
+        this.forms.add.addEventListener('submit', (e) => e.preventDefault());
 
-        this.displays.userSelect.addEventListener('change', () => this.onUserSelectChange());
+        this.displays.userPickerTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleUserPicker();
+        });
+        this.displays.userPickerDropdown.addEventListener('click', (e) => e.stopPropagation());
+        this.displays.userSearch.addEventListener('input', () => this.refreshUserPicker());
+        this.displays.userSearch.addEventListener('keydown', (e) => {
+            e.stopPropagation();
+            if (e.key === 'Escape') this.closeUserPicker();
+        });
+        document.addEventListener('click', () => this.closeUserPicker());
 
         this.btns.start.addEventListener('click', () => this.startDaily());
         this.displays.iceTokenInput.addEventListener('change', (e) => {
             setIceToken(e.target.value.trim());
+            invalidarCacheIce();
+            this.initIceScrum(true);
         });
+        this.displays.iceRefreshBtn.addEventListener('click', () => this.initIceScrum(true));
         this.btns.next.addEventListener('click', () => this.nextSpeaker());
         this.btns.skip.addEventListener('click', () => this.skipSpeaker());
         this.btns.pause.addEventListener('click', () => this.togglePause());
@@ -1037,34 +1609,199 @@ class DailyScrumApp {
     }
 
     loadIceToken() {
-        const saved = sessionStorage.getItem(STORAGE_KEY_ICE_TOKEN) || ICE_CONFIG.defaultToken || '';
+        const saved = sessionStorage.getItem(STORAGE_KEY_ICE_TOKEN) || '';
         this.displays.iceTokenInput.value = saved;
         if (saved) setIceToken(saved);
     }
 
-    initIceScrumUserSelect() {
-        const savedId = localStorage.getItem(STORAGE_KEY_USER);
-        populateUserSelect(this.displays.userSelect, usuarios, savedId);
-        if (savedId) {
-            this.displays.userSelect.value = savedId;
+    refreshUserPicker() {
+        const tasksByUser = this.iceData?.projects ? buildTasksByUserMap(this.iceData.projects) : null;
+        const excludeUserIds = this.participants
+            .map(p => p.iceScrumUserId)
+            .filter(id => id != null);
+        const pickerOptions = {
+            noProjectsSelected: !this.selectedProjectPkeys.length,
+            excludeUserIds,
+            filterQuery: this.displays.userSearch?.value || ''
+        };
+        const available = filterAvailableIceUsers(this.iceUsers, pickerOptions);
+        const emptyMsg = getUserPickerEmptyMessage(this.iceUsers, available, pickerOptions);
+
+        this.displays.userPickerTrigger.disabled = pickerOptions.noProjectsSelected;
+        if (!this.userPickerOpen) {
+            this.displays.userPickerLabel.textContent = pickerOptions.noProjectsSelected
+                ? 'Selecciona proyectos primero'
+                : 'Seleccionar participante...';
         }
-        this.onUserSelectChange();
+
+        this.displays.userPickerList.innerHTML = '';
+        this.displays.userPickerEmpty.classList.add('hidden');
+
+        available.forEach(u => {
+            const li = document.createElement('li');
+            li.setAttribute('role', 'option');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'user-picker-option';
+            btn.textContent = formatUserPickerOption(u, tasksByUser);
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.selectUserFromPicker(u);
+            });
+            li.appendChild(btn);
+            this.displays.userPickerList.appendChild(li);
+        });
+
+        if (!available.length && emptyMsg) {
+            this.displays.userPickerEmpty.textContent = emptyMsg;
+            this.displays.userPickerEmpty.classList.remove('hidden');
+        }
     }
 
-    onUserSelectChange() {
-        const value = this.displays.userSelect.value;
-        if (!value) {
-            this.selectedUserId = null;
-            this.displays.selectedUserDisplay.textContent = 'Ningún usuario seleccionado';
-            localStorage.removeItem(STORAGE_KEY_USER);
+    openUserPicker() {
+        if (this.displays.userPickerTrigger.disabled) return;
+        this.userPickerOpen = true;
+        this.displays.userPickerDropdown.classList.remove('hidden');
+        this.displays.userPickerTrigger.classList.add('open');
+        this.displays.userPickerTrigger.setAttribute('aria-expanded', 'true');
+        this.displays.userSearch.focus();
+        lucide.createIcons();
+    }
+
+    closeUserPicker() {
+        if (!this.userPickerOpen) return;
+        this.userPickerOpen = false;
+        this.displays.userPickerDropdown.classList.add('hidden');
+        this.displays.userPickerTrigger.classList.remove('open');
+        this.displays.userPickerTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    toggleUserPicker() {
+        if (this.userPickerOpen) this.closeUserPicker();
+        else this.openUserPicker();
+    }
+
+    selectUserFromPicker(user) {
+        if (this.addParticipantFromIceScrum(user.id, user.nombre)) {
+            this.displays.userSearch.value = '';
+            this.closeUserPicker();
+            this.refreshUserPicker();
+            lucide.createIcons();
+        }
+    }
+
+    applyIceDataToSetup() {
+        this.refreshUserPicker();
+        this.renderParticipantList();
+
+        const sprintParts = [];
+        if (this.iceData?.projects) {
+            Object.entries(this.iceData.projects).forEach(([pkey, bundle]) => {
+                if (bundle?.sprint?.fullName) {
+                    sprintParts.push(`${pkey}: ${bundle.sprint.fullName}`);
+                }
+            });
+        }
+        if (sprintParts.length) {
+            this.displays.iceSprintBadge.textContent = sprintParts.join(' | ');
+            this.displays.iceSprintBadge.classList.remove('hidden');
+        } else {
+            this.displays.iceSprintBadge.classList.add('hidden');
+        }
+
+        if (this.iceData?.createdAt) {
+            this.displays.iceSyncStatus.textContent = `Última sincronización: ${formatIceSyncTime(this.iceData.createdAt)}`;
+        }
+
+        this.showIceWarnings(this.iceProjectWarnings);
+    }
+
+    showIceWarnings(warnings) {
+        const el = this.displays.iceSetupError;
+        if (!warnings?.length) return;
+        el.innerHTML = `<ul>${warnings.map(w => `<li>${escapeHtml(w)}</li>`).join('')}</ul>`;
+        el.classList.remove('hidden');
+        el.classList.add('ice-setup-warning');
+    }
+
+    async initIceScrum(forceRefresh = false) {
+        if (this.iceInitInProgress) return;
+        this.iceInitInProgress = true;
+        this.iceLoading = true;
+        this.iceLoadError = null;
+        this.iceProjectWarnings = [];
+
+        this.displays.iceSetupLoading.classList.remove('hidden');
+        this.displays.iceSetupError.classList.add('hidden');
+        this.displays.iceSetupError.classList.remove('ice-setup-warning');
+        this.displays.iceSetupError.innerHTML = '';
+        this.displays.iceRefreshBtn.disabled = true;
+
+        if (!getIceToken()) {
+            this.iceUsers = [];
+            this.iceData = null;
+            this.iceSprintCache = null;
+            this.availableProjects = [];
+            this.selectedProjectPkeys = [];
+            this.iceLoadError = 'Configura tu token iceScrum para cargar usuarios y tareas.';
+            this.displays.iceSetupError.textContent = this.iceLoadError;
+            this.displays.iceSetupError.classList.remove('hidden');
+            this.displays.iceSetupLoading.classList.add('hidden');
+            this.displays.iceSyncStatus.textContent = 'Sin sincronizar (falta token)';
+            if (this.displays.iceProjectList) this.displays.iceProjectList.innerHTML = '';
+            this.refreshUserPicker();
+            this.iceInitInProgress = false;
+            this.iceLoading = false;
+            this.displays.iceRefreshBtn.disabled = false;
             return;
         }
-        this.selectedUserId = Number(value);
-        localStorage.setItem(STORAGE_KEY_USER, value);
-        const user = usuarios.find(u => u.id === this.selectedUserId);
-        this.displays.selectedUserDisplay.textContent = user
-            ? `Seleccionado: ${user.nombre} (ID: ${user.id})`
-            : `Seleccionado: ID ${value}`;
+
+        try {
+            this.availableProjects = await cargarProyectosIceScrum();
+            this.selectedProjectPkeys = loadSelectedProjects().filter(p =>
+                this.availableProjects.some(ap => ap.pkey === p)
+            );
+
+            renderProjectSelector(
+                this.displays.iceProjectList,
+                this.availableProjects,
+                this.selectedProjectPkeys,
+                () => this.initIceScrum(true)
+            );
+
+            this.iceData = await cargarIceScrumInicial({
+                forceRefresh,
+                selectedPkeys: this.selectedProjectPkeys,
+                availableProjects: this.availableProjects
+            });
+            this.iceUsers = this.iceData.users || [];
+            this.iceSprintCache = this.iceData.projects || {};
+            this.iceProjectWarnings = this.iceData.warnings || [];
+            this.applyIceDataToSetup();
+        } catch (e) {
+            console.error(e);
+            this.iceLoadError = e.message || String(e);
+            const isCors = e instanceof TypeError && /fetch|network/i.test(e.message);
+            if (isCors) {
+                this.iceLoadError += ' — Ejecuta: node icescrum-proxy.mjs y abre http://localhost:3456/daily.html';
+            }
+            this.iceData = null;
+            this.iceUsers = [];
+            this.iceSprintCache = null;
+            this.displays.iceSetupError.textContent = this.iceLoadError;
+            this.displays.iceSetupError.classList.remove('ice-setup-warning');
+            this.displays.iceSetupError.classList.remove('hidden');
+            this.displays.iceSyncStatus.textContent = 'Error de sincronización';
+            this.refreshUserPicker();
+        } finally {
+            this.displays.iceSetupLoading.classList.add('hidden');
+            this.displays.iceRefreshBtn.disabled = false;
+            this.iceInitInProgress = false;
+            this.iceLoading = false;
+            const speaker = this.currentQueue[this.currentIndex];
+            if (speaker) this.renderSpeakerTasks(speaker);
+            lucide.createIcons();
+        }
     }
 
     // --- Participant Management ---
@@ -1114,6 +1851,12 @@ class DailyScrumApp {
     saveAndRender() {
         localStorage.setItem('daily-participants', JSON.stringify(this.participants));
         this.renderParticipantList();
+        this.refreshUserPicker();
+    }
+
+    getParticipantTaskCount(participant) {
+        if (!participant.iceScrumUserId || !this.iceData?.projects) return null;
+        return contarTareasPorUsuarioMulti(this.iceData.projects, participant.iceScrumUserId);
     }
 
     renderParticipantList() {
@@ -1121,11 +1864,16 @@ class DailyScrumApp {
         this.displays.participantCount.textContent = this.participants.length;
 
         this.participants.forEach(p => {
+            const taskCount = this.getParticipantTaskCount(p);
+            const taskLabel = taskCount !== null
+                ? `${taskCount} tarea${taskCount === 1 ? '' : 's'}`
+                : '';
             const li = document.createElement('li');
             li.className = 'participant-item';
             li.innerHTML = `
                 <div class="participant-info">
-                    <span style="font-weight: 600; ${p.excludeFromRotation ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${p.name}</span>
+                    <span style="font-weight: 600; ${p.excludeFromRotation ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${escapeHtml(p.name)}</span>
+                    ${taskLabel ? `<span class="participant-task-count">${taskLabel}</span>` : ''}
                     <div style="display: flex; gap: 0.3rem;">
                         ${p.excludeFromRotation ? '<span class="badge badge-guest">Invitado/SM</span>' : ''}
                         ${p.isLate ? '<span class="badge badge-late">Tarde</span>' : ''}
@@ -1184,36 +1932,22 @@ class DailyScrumApp {
 
         this.currentIndex = 0;
         this.globalTimerSeconds = 0;
-        this.iceSprintCache = null;
-        this.iceLoadError = null;
-        this.iceLoading = true;
+
+        this.iceSprintCache = this.iceData?.projects || null;
+        if (!this.iceSprintCache && getIceToken()) {
+            this.iceLoadError = 'Sin datos de iceScrum. Usa "Actualizar datos iceScrum" en setup.';
+        } else if (!getIceToken()) {
+            this.iceLoadError = 'Sin token iceScrum configurado.';
+        }
 
         this.displays.progressTotal.textContent = this.currentQueue.length;
         this.displays.globalTimerContainer.classList.remove('hidden');
-        this.btns.start.disabled = true;
-        this.btns.start.textContent = 'Cargando iceScrum...';
 
         this.switchView('active');
         this.startGlobalTimer();
         this.showSpeaker(this.currentQueue[this.currentIndex]);
-
-        try {
-            this.iceSprintCache = await cargarSprintIceScrum();
-        } catch (e) {
-            console.error(e);
-            this.iceLoadError = e.message || String(e);
-            const isCors = e instanceof TypeError && /fetch|network/i.test(e.message);
-            if (isCors) {
-                this.iceLoadError += ' — Posible CORS. Ejecuta: node icescrum-proxy.mjs y abre http://localhost:3456/daily.html';
-            }
-            alert('No se pudieron cargar datos de iceScrum. La Daily continuará sin tareas.');
-        } finally {
-            this.iceLoading = false;
-            this.btns.start.disabled = false;
-            this.btns.start.innerHTML = '<i data-lucide="play"></i> INICIAR DAILY';
-            this.renderSpeakerTasks(this.currentQueue[this.currentIndex]);
-            lucide.createIcons();
-        }
+        this.renderSpeakerTasks(this.currentQueue[this.currentIndex]);
+        lucide.createIcons();
     }
 
     calculateStartDelaySeconds(actualStartTimestamp) {
@@ -1305,28 +2039,30 @@ class DailyScrumApp {
             return;
         }
 
-        if (!this.iceSprintCache) {
+        if (!this.iceSprintCache || !Object.keys(this.iceSprintCache).length) {
             hideAll();
             errorEl.textContent = 'Sin datos del sprint. Reinicia la Daily o verifica el token.';
             errorEl.classList.remove('hidden');
             return;
         }
 
-        const filtered = filtrarTareasPorUsuario(
-            this.iceSprintCache.tasks,
-            speaker.iceScrumUserId,
-            'responsible'
-        );
+        const byProject = {};
+        for (const [pkey, bundle] of Object.entries(this.iceSprintCache)) {
+            byProject[pkey] = filtrarTareasPorUsuario(
+                bundle?.tasks || [],
+                speaker.iceScrumUserId,
+                { assigneeFields: ['responsible'] }
+            );
+        }
 
         loading.classList.add('hidden');
         errorEl.classList.add('hidden');
 
-        if (filtered.length === 0) {
-            list.innerHTML = '';
+        const hasAny = renderTareasIceScrumMultiProyecto(list, byProject, this.iceSprintCache);
+        if (!hasAny) {
             empty.classList.remove('hidden');
         } else {
             empty.classList.add('hidden');
-            renderTareasIceScrum(list, filtered);
         }
     }
 
@@ -1590,9 +2326,30 @@ if (typeof window !== 'undefined') {
     window.filtrarTareasPorUsuario = filtrarTareasPorUsuario;
     window.normalizarTareaIce = normalizarTareaIce;
     window.getEstadoTarea = getEstadoTarea;
+    window.cacheValido = cacheValido;
+    window.seleccionarSprintActivo = seleccionarSprintActivo;
+    window.mapearMiembrosProyecto = mapearMiembrosProyecto;
+    window.extraerProyectoPorPkey = extraerProyectoPorPkey;
+    window.mergearUsuarios = mergearUsuarios;
+    window.contarTareasPorUsuario = contarTareasPorUsuario;
+    window.contarTareasPorUsuarioMulti = contarTareasPorUsuarioMulti;
+    window.buildTasksByUserMap = buildTasksByUserMap;
+    window.pkeysEqual = pkeysEqual;
+    window.ICE_CACHE_TTL_MS = ICE_CACHE_TTL_MS;
+    window.app = app;
 }
 
 lucide.createIcons();
+
+        (function enableOptionalSpecExecution() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('spec') === '1') window.RUN_DAILY_SPEC = true;
+            if (window.RUN_DAILY_SPEC === true) {
+                const specScript = document.createElement('script');
+                specScript.src = 'daily-manager.spec.js';
+                document.body.appendChild(specScript);
+            }
+        })();
     </script>
 </body>
 </html>
