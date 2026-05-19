@@ -143,6 +143,141 @@ input[type="time"]:focus {
     background: rgba(255, 255, 255, 0.08);
 }
 
+select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    color: var(--text-bright);
+    outline: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: var(--accent-info);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+select option {
+    background: var(--bg-surface);
+    color: var(--text-bright);
+}
+
+.selected-user-hint {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.speaker-tasks {
+    width: 100%;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.speaker-tasks-title {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+}
+
+.task-list {
+    list-style: none;
+}
+
+.task-story-group {
+    margin-bottom: 1rem;
+}
+
+.task-story-name {
+    font-weight: 700;
+    color: var(--accent-info);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.task-story-items {
+    list-style: none;
+    padding-left: 0.5rem;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    margin-bottom: 0.35rem;
+}
+
+.task-item-name {
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.task-status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.task-status-done {
+    background: rgba(63, 185, 80, 0.2);
+    color: var(--accent-primary);
+}
+
+.task-status-progress {
+    background: rgba(88, 166, 255, 0.2);
+    color: var(--accent-info);
+}
+
+.task-status-blocked {
+    background: rgba(248, 81, 73, 0.2);
+    color: var(--accent-danger);
+}
+
+.task-status-pending {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+}
+
+.task-empty {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.task-error {
+    font-size: 0.85rem;
+    color: var(--accent-danger);
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+input[type="password"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    color: var(--text-bright);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+input[type="password"]:focus {
+    border-color: var(--accent-info);
+    background: rgba(255, 255, 255, 0.08);
+}
+
 .btn {
     padding: 0.8rem 1.5rem;
     border-radius: 8px;
@@ -415,13 +550,21 @@ input[type="time"]:focus {
                     <h2 style="margin-bottom: 1.5rem;">Gestionar Equipo</h2>
                     <form id="add-participant-form">
                         <div class="form-group">
-                            <label for="p-name">Nombre del Participante</label>
-                            <input type="text" id="p-name" placeholder="Ej: Nelson" required>
+                            <label for="user-select">Participante (iceScrum)</label>
+                            <select id="user-select" required>
+                                <!-- Opciones cargadas desde usuarios[] -->
+                            </select>
+                            <p id="selected-user-display" class="selected-user-hint">Ningún usuario seleccionado</p>
                         </div>
                         <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
                             <button type="submit" class="btn btn-primary" style="flex: 1;">
                                 <i data-lucide="user-plus"></i> Agregar
                             </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="ice-token">Token iceScrum</label>
+                            <input type="password" id="ice-token" placeholder="x-icescrum-token (perfil iceScrum)" autocomplete="off">
+                            <p class="selected-user-hint">Se guarda en esta sesión del navegador. Generalo en tu perfil de iceScrum.</p>
                         </div>
                         <div class="form-group">
                             <label for="planned-start-time">Horario pactado de inicio</label>
@@ -489,6 +632,14 @@ input[type="time"]:focus {
                     <div id="parking-lot-content" class="question-box hidden" style="margin-bottom: 2rem; width: 100%; text-align: left;">
                         <h4>Espacio de Preguntas / Parking Lot</h4>
                         <p style="font-size: 1.1rem; line-height: 1.6;">Discusiones técnicas, dudas generales o temas que quedaron pendientes durante la ronda individual.</p>
+                    </div>
+
+                    <div id="speaker-tasks-panel" class="speaker-tasks hidden">
+                        <h4 class="speaker-tasks-title">Tareas iceScrum</h4>
+                        <p id="speaker-tasks-loading" class="task-empty hidden">Cargando tareas del sprint...</p>
+                        <p id="speaker-tasks-error" class="task-error hidden"></p>
+                        <ul id="speaker-tasks-list" class="task-list"></ul>
+                        <p id="speaker-tasks-empty" class="task-empty hidden">Sin tareas asignadas en este sprint.</p>
                     </div>
 
                     <div style="display: flex; gap: 1rem; justify-content: center;">
@@ -578,6 +729,183 @@ input[type="time"]:focus {
     <!-- REMPLAZAR POR EL CONTENIDO DE APP.JS -->
 
     <script>
+// --- Módulo iceScrum ---
+const STORAGE_KEY_USER = 'daily-selected-user-id';
+const STORAGE_KEY_ICE_TOKEN = 'daily-icescrum-token';
+
+const ICE_CONFIG = {
+    baseUrl: 'https://cloud.icescrum.com/ws',
+    proxyBaseUrl: 'http://localhost:3456/ws',
+    projectId: '246338',
+    sprintId: '249673',
+    defaultToken: 'token_aqui'
+};
+
+const usuarios = [
+    { id: 76574, nombre: 'Alexander Torrico' },
+    { id: 86602, nombre: 'Alexis Molina' },
+    { id: 76429, nombre: 'Emanuel Mallon' },
+    { id: 86346, nombre: 'Gustavo Muza' },
+    { id: 76388, nombre: 'HMS Scrum' },
+    { id: 86734, nombre: 'Juan ignacio DE GAETANO' },
+    { id: 87002, nombre: 'Juan Manuel Sisti' },
+    { id: 76572, nombre: 'Nahuel Alamo' },
+    { id: 81061, nombre: 'Nelson Pinget' },
+    { id: 76571, nombre: 'Pia Carla Andrea Tessandori Zapiola' },
+    { id: 86345, nombre: 'Ramiro Muñoz' }
+];
+
+function getIceBaseUrl() {
+    if (typeof location !== 'undefined' && location.port === '3456') {
+        return ICE_CONFIG.proxyBaseUrl;
+    }
+    return ICE_CONFIG.baseUrl;
+}
+
+function getIceToken() {
+    return sessionStorage.getItem(STORAGE_KEY_ICE_TOKEN)
+        || ICE_CONFIG.defaultToken
+        || '';
+}
+
+function setIceToken(token) {
+    if (token) sessionStorage.setItem(STORAGE_KEY_ICE_TOKEN, token);
+    else sessionStorage.removeItem(STORAGE_KEY_ICE_TOKEN);
+}
+
+async function iceFetch(path) {
+    const token = getIceToken();
+    if (!token) throw new Error('Falta token iceScrum. Configuralo en Setup.');
+
+    const res = await fetch(`${getIceBaseUrl()}${path}`, {
+        headers: {
+            Accept: 'application/json',
+            'x-icescrum-token': token
+        }
+    });
+
+    if (!res.ok) {
+        const detail = await res.text().catch(() => '');
+        throw new Error(`iceScrum ${res.status} en ${path}${detail ? `: ${detail.slice(0, 120)}` : ''}`);
+    }
+
+    return res.json();
+}
+
+function normalizarTareaIce(task) {
+    return {
+        name: task.name,
+        parentStory: task.parentStory
+            ? { id: task.parentStory.id, name: task.parentStory.name }
+            : { name: 'Sin historia' },
+        creator: task.creator ? { id: task.creator.id } : null,
+        responsible: task.responsible ? { id: task.responsible.id } : null,
+        blocked: Boolean(task.blocked),
+        doneDate: task.doneDate || null,
+        inProgressDate: task.inProgressDate || null,
+        state: task.state
+    };
+}
+
+async function cargarSprintIceScrum() {
+    const base = `/project/${ICE_CONFIG.projectId}`;
+    const sprint = ICE_CONFIG.sprintId;
+    const [storiesRaw, tasksRaw] = await Promise.all([
+        iceFetch(`${base}/story/sprint/${sprint}`),
+        iceFetch(`${base}/task/sprint/${sprint}`)
+    ]);
+
+    const stories = Array.isArray(storiesRaw) ? storiesRaw : [];
+    const tasks = (Array.isArray(tasksRaw) ? tasksRaw : []).map(normalizarTareaIce);
+
+    return {
+        stories,
+        tasks,
+        loadedAt: Date.now()
+    };
+}
+
+function filtrarTareasPorUsuario(tasks, userId, assigneeField = 'responsible') {
+    const id = Number(userId);
+    return tasks.filter(task => {
+        const assignee = task[assigneeField];
+        return assignee && Number(assignee.id) === id;
+    });
+}
+
+function getEstadoTarea(task) {
+    if (task.blocked) {
+        return { emoji: '⛔', text: 'Bloqueado', className: 'task-status-blocked' };
+    }
+    if (task.doneDate) {
+        return { emoji: '✅', text: 'Hecho', className: 'task-status-done' };
+    }
+    if (task.inProgressDate) {
+        return { emoji: '🔄', text: 'En progreso', className: 'task-status-progress' };
+    }
+    if (task.state === 2) {
+        return { emoji: '✅', text: 'Hecho', className: 'task-status-done' };
+    }
+    if (task.state === 1) {
+        return { emoji: '🔄', text: 'En progreso', className: 'task-status-progress' };
+    }
+    return { emoji: '○', text: 'Pendiente', className: 'task-status-pending' };
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function populateUserSelect(selectEl, usuariosList, selectedId) {
+    selectEl.innerHTML = '<option value="">-- Seleccionar usuario --</option>';
+    usuariosList.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = String(u.id);
+        opt.textContent = u.nombre;
+        if (selectedId && String(u.id) === String(selectedId)) {
+            opt.selected = true;
+        }
+        selectEl.appendChild(opt);
+    });
+}
+
+function renderTareasIceScrum(listEl, tasks) {
+    listEl.innerHTML = '';
+    if (!tasks.length) return;
+
+    const byStory = {};
+    tasks.forEach(task => {
+        const storyName = task.parentStory?.name || 'Sin historia';
+        if (!byStory[storyName]) byStory[storyName] = [];
+        byStory[storyName].push(task);
+    });
+
+    Object.entries(byStory).forEach(([storyName, storyTasks]) => {
+        const storyLi = document.createElement('li');
+        storyLi.className = 'task-story-group';
+        storyLi.innerHTML = `<div class="task-story-name">${escapeHtml(storyName)}</div>`;
+
+        const tasksUl = document.createElement('ul');
+        tasksUl.className = 'task-story-items';
+
+        storyTasks.forEach(task => {
+            const estado = getEstadoTarea(task);
+            const taskLi = document.createElement('li');
+            taskLi.className = 'task-item';
+            taskLi.innerHTML = `
+                <span class="task-item-name">${escapeHtml(task.name)}</span>
+                <span class="task-status ${estado.className}">${estado.emoji} ${estado.text}</span>
+            `;
+            tasksUl.appendChild(taskLi);
+        });
+
+        storyLi.appendChild(tasksUl);
+        listEl.appendChild(storyLi);
+    });
+}
+
 class DailyScrumApp {
     constructor() {
         this.participants = JSON.parse(localStorage.getItem('daily-participants')) || [];
@@ -601,9 +929,16 @@ class DailyScrumApp {
         // Metrics
         this.results = [];
 
+        this.selectedUserId = null;
+        this.iceSprintCache = null;
+        this.iceLoadError = null;
+        this.iceLoading = false;
+
         this.initElements();
         this.initEvents();
         this.loadPlannedStartTime();
+        this.loadIceToken();
+        this.initIceScrumUserSelect();
         this.renderParticipantList();
     }
 
@@ -640,7 +975,15 @@ class DailyScrumApp {
             statPauseTime: document.getElementById('stat-pause-time'),
             statStartDelay: document.getElementById('stat-start-delay'),
             statStartDelayLabel: document.getElementById('stat-start-delay-label'),
-            plannedStartInput: document.getElementById('planned-start-time')
+            plannedStartInput: document.getElementById('planned-start-time'),
+            iceTokenInput: document.getElementById('ice-token'),
+            userSelect: document.getElementById('user-select'),
+            selectedUserDisplay: document.getElementById('selected-user-display'),
+            speakerTasksPanel: document.getElementById('speaker-tasks-panel'),
+            speakerTasksList: document.getElementById('speaker-tasks-list'),
+            speakerTasksLoading: document.getElementById('speaker-tasks-loading'),
+            speakerTasksError: document.getElementById('speaker-tasks-error'),
+            speakerTasksEmpty: document.getElementById('speaker-tasks-empty')
         };
 
         this.btns = {
@@ -659,12 +1002,18 @@ class DailyScrumApp {
     initEvents() {
         this.forms.add.addEventListener('submit', (e) => {
             e.preventDefault();
-            const nameInput = document.getElementById('p-name');
-            this.addParticipant(nameInput.value);
-            nameInput.value = '';
+            const userId = this.displays.userSelect.value;
+            if (!userId) return;
+            const user = usuarios.find(u => String(u.id) === userId);
+            if (user) this.addParticipantFromIceScrum(user.id, user.nombre);
         });
 
+        this.displays.userSelect.addEventListener('change', () => this.onUserSelectChange());
+
         this.btns.start.addEventListener('click', () => this.startDaily());
+        this.displays.iceTokenInput.addEventListener('change', (e) => {
+            setIceToken(e.target.value.trim());
+        });
         this.btns.next.addEventListener('click', () => this.nextSpeaker());
         this.btns.skip.addEventListener('click', () => this.skipSpeaker());
         this.btns.pause.addEventListener('click', () => this.togglePause());
@@ -687,7 +1036,57 @@ class DailyScrumApp {
         this.displays.plannedStartInput.value = this.plannedStartTime;
     }
 
+    loadIceToken() {
+        const saved = sessionStorage.getItem(STORAGE_KEY_ICE_TOKEN) || ICE_CONFIG.defaultToken || '';
+        this.displays.iceTokenInput.value = saved;
+        if (saved) setIceToken(saved);
+    }
+
+    initIceScrumUserSelect() {
+        const savedId = localStorage.getItem(STORAGE_KEY_USER);
+        populateUserSelect(this.displays.userSelect, usuarios, savedId);
+        if (savedId) {
+            this.displays.userSelect.value = savedId;
+        }
+        this.onUserSelectChange();
+    }
+
+    onUserSelectChange() {
+        const value = this.displays.userSelect.value;
+        if (!value) {
+            this.selectedUserId = null;
+            this.displays.selectedUserDisplay.textContent = 'Ningún usuario seleccionado';
+            localStorage.removeItem(STORAGE_KEY_USER);
+            return;
+        }
+        this.selectedUserId = Number(value);
+        localStorage.setItem(STORAGE_KEY_USER, value);
+        const user = usuarios.find(u => u.id === this.selectedUserId);
+        this.displays.selectedUserDisplay.textContent = user
+            ? `Seleccionado: ${user.nombre} (ID: ${user.id})`
+            : `Seleccionado: ID ${value}`;
+    }
+
     // --- Participant Management ---
+    addParticipantFromIceScrum(userId, nombre) {
+        const iceId = Number(userId);
+        if (this.participants.some(p => p.iceScrumUserId === iceId || p.id === String(userId))) {
+            alert('Este usuario ya está en la lista.');
+            return false;
+        }
+        this.participants.push({
+            id: String(userId),
+            name: nombre,
+            iceScrumUserId: iceId,
+            isLate: false,
+            isDelayed: false,
+            excludeFromRotation: false,
+            status: 'pending'
+        });
+        this.saveAndRender();
+        return true;
+    }
+
     addParticipant(name) {
         const id = Date.now().toString();
         this.participants.push({
@@ -759,7 +1158,7 @@ class DailyScrumApp {
         this.views[viewName].classList.add('active');
     }
 
-    startDaily() {
+    async startDaily() {
         if (this.participants.length === 0) return alert('Agrega participantes primero.');
 
         this.results = [];
@@ -771,12 +1170,10 @@ class DailyScrumApp {
         this.actualStartTimestamp = Date.now();
         this.startDelaySeconds = this.calculateStartDelaySeconds(this.actualStartTimestamp);
         this.btns.pause.innerHTML = '<i data-lucide="pause"></i> Pausar';
-        // Only participants not excluded from rotation
         this.currentQueue = this.participants
             .filter(p => !p.excludeFromRotation)
             .sort(() => Math.random() - 0.5);
 
-        // Add "Preguntas / Parking Lot" as the last item
         this.currentQueue.push({
             id: 'parking-lot',
             name: 'Preguntas / Parking Lot',
@@ -787,14 +1184,36 @@ class DailyScrumApp {
 
         this.currentIndex = 0;
         this.globalTimerSeconds = 0;
+        this.iceSprintCache = null;
+        this.iceLoadError = null;
+        this.iceLoading = true;
 
         this.displays.progressTotal.textContent = this.currentQueue.length;
         this.displays.globalTimerContainer.classList.remove('hidden');
+        this.btns.start.disabled = true;
+        this.btns.start.textContent = 'Cargando iceScrum...';
 
         this.switchView('active');
         this.startGlobalTimer();
         this.showSpeaker(this.currentQueue[this.currentIndex]);
-        lucide.createIcons();
+
+        try {
+            this.iceSprintCache = await cargarSprintIceScrum();
+        } catch (e) {
+            console.error(e);
+            this.iceLoadError = e.message || String(e);
+            const isCors = e instanceof TypeError && /fetch|network/i.test(e.message);
+            if (isCors) {
+                this.iceLoadError += ' — Posible CORS. Ejecuta: node icescrum-proxy.mjs y abre http://localhost:3456/daily.html';
+            }
+            alert('No se pudieron cargar datos de iceScrum. La Daily continuará sin tareas.');
+        } finally {
+            this.iceLoading = false;
+            this.btns.start.disabled = false;
+            this.btns.start.innerHTML = '<i data-lucide="play"></i> INICIAR DAILY';
+            this.renderSpeakerTasks(this.currentQueue[this.currentIndex]);
+            lucide.createIcons();
+        }
     }
 
     calculateStartDelaySeconds(actualStartTimestamp) {
@@ -844,10 +1263,71 @@ class DailyScrumApp {
         }
 
         this.updateNextButtonLabel(speaker);
+        this.renderSpeakerTasks(speaker);
         this.startSpeakerTimer();
 
         setTimeout(() => card.classList.remove('entering'), 300);
         lucide.createIcons();
+    }
+
+    renderSpeakerTasks(speaker) {
+        const panel = this.displays.speakerTasksPanel;
+        const list = this.displays.speakerTasksList;
+        const empty = this.displays.speakerTasksEmpty;
+        const loading = this.displays.speakerTasksLoading;
+        const errorEl = this.displays.speakerTasksError;
+
+        const hideAll = () => {
+            list.innerHTML = '';
+            loading.classList.add('hidden');
+            errorEl.classList.add('hidden');
+            empty.classList.add('hidden');
+        };
+
+        if (speaker.isParkingLot || !speaker.iceScrumUserId) {
+            panel.classList.add('hidden');
+            hideAll();
+            return;
+        }
+
+        panel.classList.remove('hidden');
+
+        if (this.iceLoading) {
+            hideAll();
+            loading.classList.remove('hidden');
+            return;
+        }
+
+        if (this.iceLoadError) {
+            hideAll();
+            errorEl.textContent = `Error al conectar con iceScrum: ${this.iceLoadError}`;
+            errorEl.classList.remove('hidden');
+            return;
+        }
+
+        if (!this.iceSprintCache) {
+            hideAll();
+            errorEl.textContent = 'Sin datos del sprint. Reinicia la Daily o verifica el token.';
+            errorEl.classList.remove('hidden');
+            return;
+        }
+
+        const filtered = filtrarTareasPorUsuario(
+            this.iceSprintCache.tasks,
+            speaker.iceScrumUserId,
+            'responsible'
+        );
+
+        loading.classList.add('hidden');
+        errorEl.classList.add('hidden');
+
+        if (filtered.length === 0) {
+            list.innerHTML = '';
+            empty.classList.remove('hidden');
+        } else {
+            empty.classList.add('hidden');
+            renderTareasIceScrum(list, filtered);
+        }
     }
 
     renderSpeakerBadges() {
@@ -1105,6 +1585,12 @@ class DailyScrumApp {
 
 // Global instance for inline event handlers
 const app = new DailyScrumApp();
+
+if (typeof window !== 'undefined') {
+    window.filtrarTareasPorUsuario = filtrarTareasPorUsuario;
+    window.normalizarTareaIce = normalizarTareaIce;
+    window.getEstadoTarea = getEstadoTarea;
+}
 
 lucide.createIcons();
     </script>
